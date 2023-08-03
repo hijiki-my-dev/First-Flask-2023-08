@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, current_app, g, redirect
+from flask import Flask, render_template, url_for, current_app, g, request, redirect
 
 app = Flask(__name__)
 
@@ -43,4 +43,7 @@ with app.test_request_context("/users?updated=true"):
 ctx = app.app_context()
 ctx.push()
 
+print(current_app.name)
+
+g.connection = "connection"
 print(g.connection)
