@@ -1,6 +1,27 @@
-from flask import Flask, render_template, url_for, current_app, g, request, redirect
+from email_validator import validate_email, EmailNotValidError
+from flask import (
+    Flask,
+    render_template,
+    url_for,
+    current_app,
+    g,
+    request,
+    redirect,
+    flash,
+)
+import logging
+from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = "2AZSMss3p5QPbcY2hBsJ"
+
+# debug tool barを表示するには以下の1行を追加する必要がある。
+app.debug = True
+# ログレベルを設定
+app.logger.setLevel(logging.DEBUG)
+
+app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
+toolbar = DebugToolbarExtension(app)
 
 
 # route1つが1つのWebページに対応するイメージ？
@@ -28,7 +49,35 @@ def contact():
 @app.route("/contact/complete", methods=["GET", "POST"])
 def contact_complete():
     if request.method == "POST":
-        # ここにメール送信処理
+        username = request.form["username"]
+        email = request.form["email"]
+        description = request.form["description"]
+
+        # 入力チェック
+        is_valid = True
+
+        if not username:
+            flash("ユーザー名は必須です。")
+            is_valid = False
+
+        if not mail:
+            flash("メールアドレスは必須です。")
+            is_valid = False
+
+        try:
+            validate_email(email)
+        except EmailNotValidError:
+            flash("メールアドレスの形式で入力してください。")
+            is_valid = False
+
+        if not description:
+            flash("問い合わせ内容は必須です。")
+            is_valid = False
+
+        if not is_valid:
+            return redirect(url_for("contact"))
+
+        flash("問い合わせ内容はメールにて送信しました。問い合わせありがとうございました。")
 
         return redirect(url_for("contact_complete"))
     return render_template("contact_complete.html")
