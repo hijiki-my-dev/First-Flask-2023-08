@@ -9,7 +9,6 @@ from flask import (
     redirect,
     flash,
     make_response,
-    response,
     session,
 )
 import logging
@@ -39,12 +38,15 @@ app.config["MAIL_DEFAULT_SENDER"] = os.environ.get("MAIL_DEFAULT_SENDER")
 mail = Mail(app)
 
 # クッキーの処理
-usename = request.cookies.get("username")
-
-response = make_response(render_template("contact.html"))
-response.set_cookie("username", "Hijiki")
-
-response.delete_cookie("username")
+# usename = request.cookies.get("username")
+#
+# response = make_response(render_template("contact.html"))
+# response.set_cookie("username", "Hijiki")
+#
+# response.delete_cookie("username")
+#
+## セッション
+# session["username"] = "Hijiki"
 
 
 # route1つが1つのWebページに対応するイメージ？
@@ -66,6 +68,12 @@ def show_name(name):
 
 @app.route("/contact")
 def contact():
+    # レスポンスオブジェクトの取得
+    response = make_response(render_template("contact.html"))
+    # クッキーを設定
+    response.set_cookie("flaskbook key", "flaskbook value")
+    # セッションを設定
+    session["username"] = "Hijiki"
     return render_template("contact.html")
 
 
