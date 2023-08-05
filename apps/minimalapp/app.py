@@ -8,6 +8,9 @@ from flask import (
     request,
     redirect,
     flash,
+    make_response,
+    response,
+    session,
 )
 import logging
 import os
@@ -34,6 +37,14 @@ app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
 app.config["MAIL_DEFAULT_SENDER"] = os.environ.get("MAIL_DEFAULT_SENDER")
 
 mail = Mail(app)
+
+# クッキーの処理
+usename = request.cookies.get("username")
+
+response = make_response(render_template("contact.html"))
+response.set_cookie("username", "Hijiki")
+
+response.delete_cookie("username")
 
 
 # route1つが1つのWebページに対応するイメージ？
