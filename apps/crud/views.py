@@ -20,7 +20,7 @@ def sql():
 
 
 # ユーザー新規作成画面
-@crud.route("/users/name", method=["GET", "POST"])
+@crud.route("/users/new", methods=["GET", "POST"])
 def create_user():
     form = UserForm()
     if form.validate_on_submit():
