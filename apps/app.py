@@ -4,11 +4,17 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from apps.config import config
+from flask_login import LoginManager
 
 # SQLAlchemyのインスタンス化
 db = SQLAlchemy()
 
 csrf = CSRFProtect()
+
+# login managerをインスタンス化（ユーザーの認証機能）
+login_manager = LoginManager()
+login_manager.login_view = "auth.signup"
+login_manager.login_massege = ""
 
 
 # 処理を関数化することで環境の切り替えがしやすくなる
@@ -40,5 +46,8 @@ def create_app(config_key):
     app.register_blueprint(crud_views.crud, url_prefix="/crud")
 
     app.register_blueprint(auth_views.auth, url_prefix="/auth")
+
+    # login_managerをアプリケーションと連携する
+    login_manager.init_app(app)
 
     return app
