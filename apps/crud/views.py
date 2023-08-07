@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for
+from flask_login import login_required
 
 from apps.app import db
 from apps.crud.models import User
@@ -9,11 +10,14 @@ crud = Blueprint("crud", __name__, template_folder="templates", static_folder="s
 
 
 @crud.route("/")
+# デコレーターを追加
+@login_required
 def index():
     return render_template("crud/index.html")
 
 
 @crud.route("/sql")
+@login_required
 def sql():
     db.session.query(User).all()
     return "コンソールログを確認してください"
@@ -21,6 +25,7 @@ def sql():
 
 # ユーザー新規作成画面
 @crud.route("/users/new", methods=["GET", "POST"])
+@login_required
 def create_user():
     form = UserForm()
     if form.validate_on_submit():
@@ -36,12 +41,14 @@ def create_user():
 
 
 @crud.route("/users")
+@login_required
 def users():
     users = User.query.all()
     return render_template("crud/index.html", users=users)
 
 
 @crud.route("/users/<user_id>", methods=["GET", "POST"])
+@login_required
 def edit_user(user_id):
     form = UserForm()
 
@@ -59,6 +66,7 @@ def edit_user(user_id):
 
 
 @crud.route("/users/<user_id>/delete", methods=["POST"])
+@login_required
 def delete_user(user_id):
     user = User.query.filter_by(id=user_id).first()
     db.session.delete(user)

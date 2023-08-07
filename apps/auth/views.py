@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from apps.app import db
 from apps.auth.forms import SignUpForm
-from app.crud.models import User
+from apps.crud.models import User
 from flask import Blueprint, render_template, flash, url_for, redirect, request
 from flask_login import login_user
 
@@ -24,22 +24,19 @@ def signup():
             password=form.password.data,
         )
 
-    if user.is_duplidate_email():
-        flash("指定のメールアドレスは登録済みです")
-        return redirect(url_for("auth.signup"))
+        if user.is_duplicate_email():
+            flash("指定のメールアドレスは登録済みです")
+            return redirect(url_for("auth.signup"))
 
-    # ユーザー情報を登録
-    db.session.add(user)
-    db.session.commit()
-    # ユーザー情報をセッションに格納する
-    login_user(user)
+        # ユーザー情報を登録
+        db.session.add(user)
+        db.session.commit()
+        # ユーザー情報をセッションに格納する
+        login_user(user)
 
-    "GETパラメータにnextキーが存在し、値がない場合はユーザーの一覧ページにリダイレクト"
-    next_ = request.args.get("next")
-    if next_ is None or not next_.startwith("/"):
-        next_ = url_for("crud.users")
-
-    return redirect(next_)
-
-
-return render_template("auth/signup.html", form=form)
+        "GETパラメータにnextキーが存在し、値がない場合はユーザーの一覧ページにリダイレクト"
+        next_ = request.args.get("next")
+        if next_ is None or not next_.startwith("/"):
+            next_ = url_for("crud.users")
+        return redirect(next_)
+    return render_template("auth/signup.html", form=form)

@@ -7,7 +7,7 @@
     {% for message in get_flashed_messages() %}
     <p style="color: red;">{{ message }}</p>
     {% endfor %}
-    {% form.csrf_token %}
+    {{ form.csrf_token }}
     <p>
         {{ form.username.label }}
         {{ form.username(size=30, placeholder="ユーザー名") }}
