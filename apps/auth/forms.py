@@ -23,3 +23,13 @@ class SignUpForm(FlaskForm):
     password = PasswordField("パスワード", validators=[DataRequired(message="パスワードは必須です。")])
     # ユーザーフォームsubmitの文言を設定する
     submit = SubmitField("新規登録")
+
+
+# ログイン機能用のクラス
+class LoginForm(FlaskForm):
+    email = StringField(
+        "メールアドレス",
+        validators=[DataRequired("メールアドレスは必須です。"), Email("メールアドレスの形式で入力してください。")],
+    )
+    password = PasswordField("パスワード", validators=[DataRequired("パスワードは必須です。")])
+    submit = SubmitField("ログイン")
