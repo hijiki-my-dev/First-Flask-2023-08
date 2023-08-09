@@ -50,4 +50,9 @@ def create_app(config_key):
     # login_managerをアプリケーションと連携する
     login_manager.init_app(app)
 
+    # 物体検知アプリを追加
+    from apps.detector import views as dt_views
+
+    app.register_blueprint(dt_views.dt)
+
     return app
