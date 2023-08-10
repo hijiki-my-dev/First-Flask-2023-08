@@ -17,6 +17,9 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
+    # backrefを利用してrelation情報を設定しorder_byで取得時のソートカラムを取得する
+    user_images = db.relationship("UserImage", backref="user")
+
     # パスワードリセット用のプロパティ
     @property
     def password(self):
