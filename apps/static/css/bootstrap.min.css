@@ -521,7 +521,7 @@ select:disabled {
 [type=reset],
 [type=submit],
 button {
-    -webkit-appearance: button
+    appearance: button
 }
 
 [type=button]:not(:disabled),
