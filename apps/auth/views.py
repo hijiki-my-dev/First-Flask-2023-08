@@ -51,7 +51,7 @@ def login():
 
         if user is not None and user.verify_password(form.password.data):
             login_user(user)
-            return redirect(url_for("crud.users"))
+            return redirect(url_for("detector.index"))
 
         flash("メールアドレスかパスワードが不正です。")
 

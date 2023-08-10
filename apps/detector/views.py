@@ -14,7 +14,7 @@ def index():
     user_images = (
         db.session.query(User, UserImage)
         .join(UserImage)
-        .filter(user.id == UserImage.user_id)
+        .filter(User.id == UserImage.user_id)
         .all()
     )
     return render_template("detector/index.html")
