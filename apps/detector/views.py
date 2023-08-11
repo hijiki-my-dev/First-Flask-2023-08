@@ -30,7 +30,7 @@ def index():
         .filter(User.id == UserImage.user_id)
         .all()
     )
-    return render_template("detector/index.html")
+    return render_template("detector/index.html", user_images=user_images)
 
 
 @dt.route("/images/<path:filename>")
