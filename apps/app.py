@@ -1,5 +1,5 @@
 from pathlib import Path
-from flask import Flask
+from flask import Flask, render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
@@ -24,14 +24,6 @@ def create_app(config_key):
     # config_keyにマッチする環境のコンフィグクラスを読み込む
     app.config.from_object(config[config_key])
 
-    # app.config.from_mapping(
-    #    SECRET_KEY="2AZSMss3p5QPbcY2hBsJ",
-    #    SQLALCHEMY_DATABASE_URI=f"sqlite:///{Path(__file__).parent.parent / 'local.sqlite'}",
-    #    SQLALCHEMY_TRACK_MODIFICATIONS=False,
-    #    SQLALCHEMY_ECHO=True,
-    #    WTF_CSRF_SECRET_KEY="AuwzyszU5sugKN7KZs6f",
-    # )
-
     csrf.init_app(app)
 
     # SQLAlchemyとアプリを連携
@@ -55,4 +47,17 @@ def create_app(config_key):
 
     app.register_blueprint(dt_views.dt)
 
+    # カスタムエラー画面を登録
+    app.register_error_handler(404, page_not_found)
+    app.register_error_handler(500, internal_server_error)
+
     return app
+
+
+# カスタムエラー画面のエンドポイント
+def page_not_found(e):
+    return render_template("404.html"), 404
+
+
+def internal_server_error(e):
+    return render_template("500.html"), 500
