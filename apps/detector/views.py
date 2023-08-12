@@ -100,7 +100,7 @@ def make_color(labels):
 
 
 # 枠線を作成
-def male_line(result_image):
+def make_line(result_image):
     line = round(0.002 * max(result_image.shape[0:2])) * 1
     return line
 
@@ -116,7 +116,7 @@ def draw_texts(result_image, line, c1, cv2, color, labels, label):
     display_txt = f"{labels[label]}"
     font = max(line - 1, 1)
     t_size = cv2.getTextSize(display_txt, 0, fontScale=line / 3, thickness=font)[0]
-    c2 = c1[0] + t_size[0], c[1] - t_size[1] - 3
+    c2 = c1[0] + t_size[0], c1[1] - t_size[1] - 3
     cv2.rectangle(result_image, c1, c2, color, -1)
     cv2.putText(
         result_image,
@@ -151,15 +151,15 @@ def exec_detect(target_image_path):
     result_image = np.array(image.copy())
 
     # モデルが検知した各物体の分だけ画像に追記
-    for box, label, score in zip(output["boxes"], output["lavels"], output["scores"]):
+    for box, label, score in zip(output["boxes"], output["labels"], output["scores"]):
         if score > 0.5 and labels[label] not in tags:
             # 上で作成した関数により、枠線を描画
             color = make_color(labels)
             line = make_line(result_image)
-            c1 = int(box[0], int(box[1]))
-            c2 = int(box[2], int(box[3]))
+            c1 = int(box[0]), int(box[1])
+            c2 = int(box[2]), int(box[3])
             cv2 = draw_lines(c1, c2, result_image, line, color)
-            cv2 = draw_texts(result_image, line, c1, cv2, color, lavels, label)
+            cv2 = draw_texts(result_image, line, c1, cv2, color, labels, label)
             tags.append(labels[label])
 
     # 検知後の画像ファイル名を生成
