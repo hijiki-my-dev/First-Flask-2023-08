@@ -294,3 +294,9 @@ def search():
         delete_form=delete_form,
         detector_form=detector_form,
     )
+
+
+# カスタムエラー画面
+@dt.errorhandler(404)
+def page_not_found(e):
+    return render_template("detector/404.html"), 404
