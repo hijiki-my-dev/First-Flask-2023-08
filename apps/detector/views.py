@@ -10,7 +10,7 @@ from pathlib import Path
 from apps.app import db
 from apps.crud.models import User
 from apps.detector.models import UserImage, UserImageTag
-from apps.detector.forms import UploadImageForm, DetectorForm
+from apps.detector.forms import UploadImageForm, DetectorForm, DeleteForm
 
 from flask import (
     Blueprint,
@@ -54,7 +54,7 @@ def index():
     # 物体検知フォームをインスタンス化
     detector_form = DetectorForm()
     # DeleteFormをインスタンス化する
-    delete_form = DleteForm()
+    delete_form = DeleteForm()
 
     return render_template(
         "detector/index.html",
