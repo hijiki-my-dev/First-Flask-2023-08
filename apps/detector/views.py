@@ -34,6 +34,7 @@ dt = Blueprint("detector", __name__, template_folder="templates")
 # dtアプリケーションを使ってエンドポイント作成
 @dt.route("/")
 def index():
+    # raise Exception()
     # UserとUserImageを結合して画像一覧を取得する。
     user_images = (
         db.session.query(User, UserImage)
