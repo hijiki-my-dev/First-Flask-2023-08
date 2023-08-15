@@ -199,7 +199,7 @@ def detect(image_id):
     # user_imageテーブルからレコードを取得する
     user_image = db.session.query(UserImage).filter(UserImage.id == image_id).first()
     if user_image is None:
-        flash("物体検知対象の画像が存在しません")
+        flash("物体検知対象の画像が存在しません。")
         return redirect(url_for("detector.index"))
 
     # 物体検知対象の画像パスを取得
