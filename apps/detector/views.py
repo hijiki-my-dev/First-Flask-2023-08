@@ -138,10 +138,13 @@ def draw_texts(result_image, line, c1, cv2, color, labels, label):
 
 # 画像検知を実行する本体
 def exec_detect(target_image_path):
+    # デバッグ用
+    print(target_image_path)
+
     # ラベルの読み込み
     labels = current_app.config["LABELS"]
     # 画像の読み込み
-    image = Image.open(target_image_path)
+    image = Image.open(target_image_path).convert("RGB")
     # 画像データをテンソル型の数値データへ
     image_tensor = torchvision.transforms.functional.to_tensor(image)
 
