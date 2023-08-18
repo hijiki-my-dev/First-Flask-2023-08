@@ -17,9 +17,7 @@ COPY ./model.pt /usr/src/model.pt
 RUN pip install --upgrade pip
 
 #Linux用Pytorchインストールコマンド
-#RUN pip install torch==2.0.0+cpu torchvision==0.15.2a0+cpu torchaudio==0.8.0 -f https://download.pytorch.org/whl/torch_stable.html
-
-RUN pip install torch==2.0.1+cpu torchvision==0.15.2a0+cpu torchaudio==0.8.0 -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.0 -f https://download.pytorch.org/whl/torch_stable.html
 
 #必要なライブラリをコンテナ内の環境にインストール
 RUN pip install -r requirements.txt
