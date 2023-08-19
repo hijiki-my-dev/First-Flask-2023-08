@@ -3,6 +3,8 @@ FROM python:3.9
 
 #apt-getのversionを更新し、SQLite3をインストール
 RUN apt-get update && apt-get install -y sqlite3 && apt-get install -y libsqlite3-dev
+#DockerでOpenCVを使うために必要かもしれない
+RUN apt-get install -y libgl1-mesa-dev
 
 #コンテナ内のワーキングディレクトリの指定
 WORKDIR /usr/src
@@ -26,7 +28,7 @@ RUN pip install -r requirements.txt
 RUN echo "building..."
 
 #環境変数を設定
-ENV FLASK_APP "apps.app:creat_app('local')"
+ENV FLASK_APP "apps.app:create_app('local')"
 ENV IMAGE_URL "/storage/images"
 
 #特定のネットワークポートをコンテナ実行時にlisten

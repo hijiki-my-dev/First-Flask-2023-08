@@ -24,6 +24,18 @@ def create_app(config_key):
     # config_keyにマッチする環境のコンフィグクラスを読み込む
     app.config.from_object(config[config_key])
 
+    # デバッグ用のロギング
+    import logging
+
+    app.logger.setLevel(logging.DEBUG)
+    app.logger.debug("debug")
+
+    # デバックツールバー
+    from flask_debugtoolbar import DebugToolbarExtension
+
+    app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
+    toolbar = DebugToolbarExtension(app)
+
     csrf.init_app(app)
 
     # SQLAlchemyとアプリを連携
