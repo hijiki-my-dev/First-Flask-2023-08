@@ -5,7 +5,7 @@ FROM python:3.9
 RUN apt-get update && apt-get install -y sqlite3 && apt-get install -y libsqlite3-dev
 
 #DockerでOpenCVを使うために必要かもしれない
-#RUN apt-get install -y libgl1-mesa-dev
+RUN apt-get install -y libgl1-mesa-dev
 
 #コンテナ内のワーキングディレクトリの指定
 WORKDIR /usr/src
